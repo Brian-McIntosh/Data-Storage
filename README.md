@@ -54,4 +54,21 @@ do {
 ```
 
 ## The Keychain
+* Where iOS stores all kinds of sensitive user data like usernames, passwords, certificates and more
+* On iOS, the keychain is probably the best-secured place for you to store data
+* Use the keychain to store things like OAuth tokens that authenticate a user against a web service
+* Apple is so confident in the keychain that they use it to store username and password combinations
+* Non-trivial to navigate and use
+  * there are wrappers available on CocoaPods, Carthage and Swift Package Manager that make using the Keychain much, much easier
+
+
 ## Databases (like CoreData and SQLite)
+If you have large objects of structured data:
+* a user’s to-do list
+* data from your user’s weekly running exercises
+
+## Summary
+1. Keychain is the most secure place to store user secrets
+2. User defaults are great for simple key-value pairs
+3. File storage is great for storing large blobs of data
+4. Databases should be used to store structured data
