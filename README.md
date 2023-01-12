@@ -6,7 +6,7 @@
 * For simple user preferences or to store simple values that help improve the user’s experience
 * It’s not encouraged to store large blobs of data, images and other large data structures in user defaults
   *(On tvOS, the user defaults store is even limited to a maximum 1MB of data and Apple recommends not exceeding 512KB)*
-* You should never store any sensitive data in user defaults. This storage is not encrypted at all
+* You should **never** store any sensitive data in user defaults. This storage is not encrypted at all
 * A user’s email address, password and other, similar data, should be stored somewhere more secure
 ```swift
 let defaults = UserDefaults.standard
@@ -33,5 +33,25 @@ When retrieving objects, the result is optional. This means you can either accep
 let savedArray = defaults.object(forKey: "SavedArray") as? [String] ?? [String]()
 ```
 ## Files on disk
+* The file system typically has a large amount of storage available
+* Can be relatively slow to read large amounts of data from
+* Mmages, videos or large JSON files are suited to be stored on disk. These kinds of files are known as binary data
+* It's not uncommon for developers to make data structures conform to Codable so they can easily convert their objects to Data, which can then be written to a file on the file system. Using disk storage to store your Codable objects is especially nice if you want to create a cache of responses that you receive from the network
+* Without any custom encryption, disk storage is very insecure
+* You should avoid storing sensitive data like usernames, passwords, and more in a file that you write to disk at all costs
+```swift
+do {
+  let fileManager = FileManager.default
+  let docs = try fileManager.url(for: .documentDirectory,
+                                 in: .userDomainMask,
+                                 appropriateFor: nil, create: false)
+  let path = docs.appendingPathComponent("myFile.txt")
+  let data = "Hello, world!".data(using: .utf8)!
+  fileManager.createFile(atPath: path.absoluteString, contents: data, attributes: nil)
+} catch {
+  // handle error
+}
+```
+
 ## The Keychain
 ## Databases (like CoreData and SQLite)
